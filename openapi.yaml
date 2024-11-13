@@ -3,60 +3,53 @@
 
 openapi: 3.0.3
 info:
-    title: ""
+    title: Friend API
     version: 0.0.1
 paths:
-    /helloworld/{name}:
-        get:
+    /api/friends/add:
+        post:
             tags:
-                - Greeter
-            description: Sends a greeting
-            operationId: Greeter_SayHello
-            parameters:
-                - name: name
-                  in: path
-                  required: true
-                  schema:
-                    type: string
+                - Friend
+            operationId: Friend_CreateNewFriendLink
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/blug.v1.CreateNewFriendLinkReq'
+                required: true
             responses:
                 "200":
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/helloworld.v1.HelloReply'
-    /ping/{name}:
-        get:
-            tags:
-                - PingTest
-            operationId: PingTest_SayPing
-            parameters:
-                - name: name
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/blug.v1.PingResp'
+                                $ref: '#/components/schemas/blug.v1.CreateNewFriendLinkResp'
 components:
     schemas:
-        blug.v1.PingResp:
+        blug.v1.CreateNewFriendLinkReq:
+            type: object
+            properties:
+                title:
+                    type: string
+                link:
+                    type: string
+                desc:
+                    type: string
+                avatar:
+                    type: string
+        blug.v1.CreateNewFriendLinkResp:
             type: object
             properties:
                 message:
                     type: string
-        helloworld.v1.HelloReply:
+                check:
+                    $ref: '#/components/schemas/blug.v1.Result'
+        blug.v1.Result:
             type: object
             properties:
-                message:
+                status:
                     type: string
-            description: The response message containing the greetings
+                msg:
+                    type: string
 tags:
-    - name: Greeter
-      description: The greeting service definition.
-    - name: PingTest
+    - name: Friend

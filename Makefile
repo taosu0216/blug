@@ -15,6 +15,10 @@ else
 	API_PROTO_FILES=$(shell find api -name *.proto)
 endif
 
+.PHONY: proto
+proto:
+	kratos proto server api/blug/v1/blug.proto -t internal/service
+
 .PHONY: init
 # init env
 init:
@@ -42,7 +46,7 @@ api:
  	       --go-http_out=paths=source_relative:./api \
  	       --go-grpc_out=paths=source_relative:./api \
 	       --openapi_out=fq_schema_naming=true,default_response=false:. \
-	       $(API_PROTO_FILES)
+	       $(API_PROTO_FILES) \
 
 .PHONY: build
 # build
@@ -61,6 +65,12 @@ all:
 	make api;
 	make config;
 	make generate;
+	make proto;
+
+.PHONY: ent
+# generate all
+ent:
+	cd internal/data/ent && ent generate --target ./ ./schema
 
 # show help
 help:

@@ -4,6 +4,7 @@ import (
 	v1 "blug/api/blug/v1"
 	"blug/internal/conf"
 	"blug/internal/service"
+	"github.com/go-kratos/kratos/v2/middleware/logging"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
@@ -11,10 +12,11 @@ import (
 )
 
 // NewHTTPServer new an HTTP server.
-func NewHTTPServer(c *conf.Server, pt *service.PingTestService, logger log.Logger) *http.Server {
+func NewHTTPServer(c *conf.Server, fs *service.FriendService, logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
 			recovery.Recovery(),
+			logging.Server(logger),
 		),
 	}
 	if c.Http.Network != "" {
@@ -27,6 +29,9 @@ func NewHTTPServer(c *conf.Server, pt *service.PingTestService, logger log.Logge
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
 	}
 	srv := http.NewServer(opts...)
-	v1.RegisterPingTestHTTPServer(srv, pt)
+	v1.RegisterFriendHTTPServer(srv, fs)
+	//
+	//route := srv.Route("/")
+	//route.POST("/api/articles/upload", pt.Upload)
 	return srv
 }

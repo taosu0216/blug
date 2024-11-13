@@ -8,6 +8,18 @@ import (
 	"fmt"
 )
 
+// The FriendFunc type is an adapter to allow the use of ordinary
+// function as Friend mutator.
+type FriendFunc func(context.Context, *ent.FriendMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f FriendFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.FriendMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.FriendMutation", m)
+}
+
 // The UserFunc type is an adapter to allow the use of ordinary
 // function as User mutator.
 type UserFunc func(context.Context, *ent.UserMutation) (ent.Value, error)

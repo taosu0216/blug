@@ -7,26 +7,24 @@ import (
 	"time"
 )
 
-type User struct {
+type Friend struct {
 	ent.Schema
 }
 
-// Fields of the Bank.
-func (User) Fields() []ent.Field {
+func (Friend) Fields() []ent.Field {
 	return []ent.Field{
 		field.UUID("id", uuid.UUID{}).
 			Default(uuid.New).
 			Unique(),
-		field.String("username").
-			Unique(),
-		field.String("password"),
-		field.String("is_root"),
+		field.String("Title").Default(""),
+		field.String("Desc").Default(""),
+		field.String("Link").Default(""),
+		field.String("Avatar").Default(""),
 		field.Time("create_time").Default(time.Now).
 			Immutable(),
 	}
 }
 
-// Edges of the Bank.
-func (User) Edges() []ent.Edge {
+func (Friend) Edges() []ent.Edge {
 	return nil
 }

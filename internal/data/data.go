@@ -6,10 +6,12 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/wire"
 	"github.com/redis/go-redis/v9"
+
+	_ "github.com/lib/pq"
 )
 
 // ProviderSet is data providers.
-var ProviderSet = wire.NewSet(NewData, NewGreeterRepo, NewPTRepo)
+var ProviderSet = wire.NewSet(NewData, NewFriendRepo)
 
 // Data .
 type Data struct {
@@ -24,11 +26,15 @@ func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
 	}
 	entClient := newDB(c, logger)
 	cache := newCache(c, logger)
-	return &Data{DB: entClient, Cache: cache}, cleanup, nil
+	return &Data{
+		DB:    entClient,
+		Cache: cache,
+	}, cleanup, nil
 }
 
 func newDB(c *conf.Data, logger log.Logger) *ent.Client {
 	cli, err := ent.Open("postgres", c.Database.Source)
+
 	if err != nil {
 		log.NewHelper(logger).Fatalf("failed opening connection to postgres: %v", err)
 		panic(err)

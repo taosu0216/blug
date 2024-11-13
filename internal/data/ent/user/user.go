@@ -3,6 +3,8 @@
 package user
 
 import (
+	"time"
+
 	"entgo.io/ent/dialect/sql"
 	"github.com/google/uuid"
 )
@@ -18,6 +20,8 @@ const (
 	FieldPassword = "password"
 	// FieldIsRoot holds the string denoting the is_root field in the database.
 	FieldIsRoot = "is_root"
+	// FieldCreateTime holds the string denoting the create_time field in the database.
+	FieldCreateTime = "create_time"
 	// Table holds the table name of the user in the database.
 	Table = "users"
 )
@@ -28,6 +32,7 @@ var Columns = []string{
 	FieldUsername,
 	FieldPassword,
 	FieldIsRoot,
+	FieldCreateTime,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -41,6 +46,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// DefaultCreateTime holds the default value on creation for the "create_time" field.
+	DefaultCreateTime func() time.Time
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() uuid.UUID
 )
@@ -66,4 +73,9 @@ func ByPassword(opts ...sql.OrderTermOption) OrderOption {
 // ByIsRoot orders the results by the is_root field.
 func ByIsRoot(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldIsRoot, opts...).ToFunc()
+}
+
+// ByCreateTime orders the results by the create_time field.
+func ByCreateTime(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCreateTime, opts...).ToFunc()
 }

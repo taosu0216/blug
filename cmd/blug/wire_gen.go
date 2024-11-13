@@ -28,11 +28,11 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	if err != nil {
 		return nil, nil, err
 	}
-	pingTestRepo := data.NewPTRepo(dataData, logger)
-	pingTestUsecase := biz.NewPingTestUsecase(pingTestRepo, logger)
-	pingTestService := service.NewPingTestService(pingTestUsecase)
-	grpcServer := server.NewGRPCServer(confServer, pingTestService, logger)
-	httpServer := server.NewHTTPServer(confServer, pingTestService, logger)
+	friendRepo := data.NewFriendRepo(dataData, logger)
+	friendUsecase := biz.NewFriendUsecase(friendRepo, logger)
+	friendService := service.NewFriendService(friendUsecase)
+	grpcServer := server.NewGRPCServer(confServer, friendService, logger)
+	httpServer := server.NewHTTPServer(confServer, friendService, logger)
 	app := newApp(logger, grpcServer, httpServer)
 	return app, func() {
 		cleanup()

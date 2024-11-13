@@ -3,8 +3,10 @@
 package ent
 
 import (
+	"blug/internal/data/ent/friend"
 	"blug/internal/data/ent/schema"
 	"blug/internal/data/ent/user"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -13,8 +15,38 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	friendFields := schema.Friend{}.Fields()
+	_ = friendFields
+	// friendDescTitle is the schema descriptor for Title field.
+	friendDescTitle := friendFields[1].Descriptor()
+	// friend.DefaultTitle holds the default value on creation for the Title field.
+	friend.DefaultTitle = friendDescTitle.Default.(string)
+	// friendDescDesc is the schema descriptor for Desc field.
+	friendDescDesc := friendFields[2].Descriptor()
+	// friend.DefaultDesc holds the default value on creation for the Desc field.
+	friend.DefaultDesc = friendDescDesc.Default.(string)
+	// friendDescLink is the schema descriptor for Link field.
+	friendDescLink := friendFields[3].Descriptor()
+	// friend.DefaultLink holds the default value on creation for the Link field.
+	friend.DefaultLink = friendDescLink.Default.(string)
+	// friendDescAvatar is the schema descriptor for Avatar field.
+	friendDescAvatar := friendFields[4].Descriptor()
+	// friend.DefaultAvatar holds the default value on creation for the Avatar field.
+	friend.DefaultAvatar = friendDescAvatar.Default.(string)
+	// friendDescCreateTime is the schema descriptor for create_time field.
+	friendDescCreateTime := friendFields[5].Descriptor()
+	// friend.DefaultCreateTime holds the default value on creation for the create_time field.
+	friend.DefaultCreateTime = friendDescCreateTime.Default.(func() time.Time)
+	// friendDescID is the schema descriptor for id field.
+	friendDescID := friendFields[0].Descriptor()
+	// friend.DefaultID holds the default value on creation for the id field.
+	friend.DefaultID = friendDescID.Default.(func() uuid.UUID)
 	userFields := schema.User{}.Fields()
 	_ = userFields
+	// userDescCreateTime is the schema descriptor for create_time field.
+	userDescCreateTime := userFields[4].Descriptor()
+	// user.DefaultCreateTime holds the default value on creation for the create_time field.
+	user.DefaultCreateTime = userDescCreateTime.Default.(func() time.Time)
 	// userDescID is the schema descriptor for id field.
 	userDescID := userFields[0].Descriptor()
 	// user.DefaultID holds the default value on creation for the id field.

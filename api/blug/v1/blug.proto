@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package blug.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "blug/api/blug/v1;v1";
+
+message CreateNewFriendLinkReq{
+  string title = 1;
+  string link = 2;
+  string desc = 3;
+  string avatar = 4;
+}
+message CreateNewFriendLinkResp{
+  string message = 1;
+  Result check = 2;
+}
+message Result{
+  string status = 1;
+  string msg = 2;
+}
+service Friend {
+  rpc CreateNewFriendLink(CreateNewFriendLinkReq) returns (CreateNewFriendLinkResp) {
+    option (google.api.http) = {
+      post: "/api/friends/add"
+      body: "*"
+    };
+  }
+}
+
+service Article {}

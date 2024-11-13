@@ -4,6 +4,7 @@ package user
 
 import (
 	"blug/internal/data/ent/predicate"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/google/uuid"
@@ -67,6 +68,11 @@ func Password(v string) predicate.User {
 // IsRoot applies equality check predicate on the "is_root" field. It's identical to IsRootEQ.
 func IsRoot(v string) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldIsRoot, v))
+}
+
+// CreateTime applies equality check predicate on the "create_time" field. It's identical to CreateTimeEQ.
+func CreateTime(v time.Time) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldCreateTime, v))
 }
 
 // UsernameEQ applies the EQ predicate on the "username" field.
@@ -262,6 +268,46 @@ func IsRootEqualFold(v string) predicate.User {
 // IsRootContainsFold applies the ContainsFold predicate on the "is_root" field.
 func IsRootContainsFold(v string) predicate.User {
 	return predicate.User(sql.FieldContainsFold(FieldIsRoot, v))
+}
+
+// CreateTimeEQ applies the EQ predicate on the "create_time" field.
+func CreateTimeEQ(v time.Time) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldCreateTime, v))
+}
+
+// CreateTimeNEQ applies the NEQ predicate on the "create_time" field.
+func CreateTimeNEQ(v time.Time) predicate.User {
+	return predicate.User(sql.FieldNEQ(FieldCreateTime, v))
+}
+
+// CreateTimeIn applies the In predicate on the "create_time" field.
+func CreateTimeIn(vs ...time.Time) predicate.User {
+	return predicate.User(sql.FieldIn(FieldCreateTime, vs...))
+}
+
+// CreateTimeNotIn applies the NotIn predicate on the "create_time" field.
+func CreateTimeNotIn(vs ...time.Time) predicate.User {
+	return predicate.User(sql.FieldNotIn(FieldCreateTime, vs...))
+}
+
+// CreateTimeGT applies the GT predicate on the "create_time" field.
+func CreateTimeGT(v time.Time) predicate.User {
+	return predicate.User(sql.FieldGT(FieldCreateTime, v))
+}
+
+// CreateTimeGTE applies the GTE predicate on the "create_time" field.
+func CreateTimeGTE(v time.Time) predicate.User {
+	return predicate.User(sql.FieldGTE(FieldCreateTime, v))
+}
+
+// CreateTimeLT applies the LT predicate on the "create_time" field.
+func CreateTimeLT(v time.Time) predicate.User {
+	return predicate.User(sql.FieldLT(FieldCreateTime, v))
+}
+
+// CreateTimeLTE applies the LTE predicate on the "create_time" field.
+func CreateTimeLTE(v time.Time) predicate.User {
+	return predicate.User(sql.FieldLTE(FieldCreateTime, v))
 }
 
 // And groups predicates with the AND operator between them.

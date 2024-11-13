@@ -6,6 +6,7 @@ import (
 	"blug/internal/data/ent/user"
 	"fmt"
 	"strings"
+	"time"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -22,7 +23,9 @@ type User struct {
 	// Password holds the value of the "password" field.
 	Password string `json:"password,omitempty"`
 	// IsRoot holds the value of the "is_root" field.
-	IsRoot       string `json:"is_root,omitempty"`
+	IsRoot string `json:"is_root,omitempty"`
+	// CreateTime holds the value of the "create_time" field.
+	CreateTime   time.Time `json:"create_time,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -33,6 +36,8 @@ func (*User) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case user.FieldUsername, user.FieldPassword, user.FieldIsRoot:
 			values[i] = new(sql.NullString)
+		case user.FieldCreateTime:
+			values[i] = new(sql.NullTime)
 		case user.FieldID:
 			values[i] = new(uuid.UUID)
 		default:
@@ -73,6 +78,12 @@ func (u *User) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field is_root", values[i])
 			} else if value.Valid {
 				u.IsRoot = value.String
+			}
+		case user.FieldCreateTime:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field create_time", values[i])
+			} else if value.Valid {
+				u.CreateTime = value.Time
 			}
 		default:
 			u.selectValues.Set(columns[i], values[i])
@@ -118,6 +129,9 @@ func (u *User) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("is_root=")
 	builder.WriteString(u.IsRoot)
+	builder.WriteString(", ")
+	builder.WriteString("create_time=")
+	builder.WriteString(u.CreateTime.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

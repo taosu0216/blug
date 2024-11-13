@@ -7,6 +7,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -35,6 +36,20 @@ func (uc *UserCreate) SetPassword(s string) *UserCreate {
 // SetIsRoot sets the "is_root" field.
 func (uc *UserCreate) SetIsRoot(s string) *UserCreate {
 	uc.mutation.SetIsRoot(s)
+	return uc
+}
+
+// SetCreateTime sets the "create_time" field.
+func (uc *UserCreate) SetCreateTime(t time.Time) *UserCreate {
+	uc.mutation.SetCreateTime(t)
+	return uc
+}
+
+// SetNillableCreateTime sets the "create_time" field if the given value is not nil.
+func (uc *UserCreate) SetNillableCreateTime(t *time.Time) *UserCreate {
+	if t != nil {
+		uc.SetCreateTime(*t)
+	}
 	return uc
 }
 
@@ -87,6 +102,10 @@ func (uc *UserCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (uc *UserCreate) defaults() {
+	if _, ok := uc.mutation.CreateTime(); !ok {
+		v := user.DefaultCreateTime()
+		uc.mutation.SetCreateTime(v)
+	}
 	if _, ok := uc.mutation.ID(); !ok {
 		v := user.DefaultID()
 		uc.mutation.SetID(v)
@@ -103,6 +122,9 @@ func (uc *UserCreate) check() error {
 	}
 	if _, ok := uc.mutation.IsRoot(); !ok {
 		return &ValidationError{Name: "is_root", err: errors.New(`ent: missing required field "User.is_root"`)}
+	}
+	if _, ok := uc.mutation.CreateTime(); !ok {
+		return &ValidationError{Name: "create_time", err: errors.New(`ent: missing required field "User.create_time"`)}
 	}
 	return nil
 }
@@ -150,6 +172,10 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 	if value, ok := uc.mutation.IsRoot(); ok {
 		_spec.SetField(user.FieldIsRoot, field.TypeString, value)
 		_node.IsRoot = value
+	}
+	if value, ok := uc.mutation.CreateTime(); ok {
+		_spec.SetField(user.FieldCreateTime, field.TypeTime, value)
+		_node.CreateTime = value
 	}
 	return _node, _spec
 }
