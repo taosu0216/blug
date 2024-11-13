@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package blug.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "blug/api/blug/v1;v1";
+
+service PingTest{
+  rpc SayPing (PingReq) returns (PingResp) {
+    option (google.api.http) = {
+      get: "/ping/{name}"
+    };
+  }
+}
+
+message PingReq {
+  string name = 1;
+}
+message PingResp {
+  string message = 1;
+}
