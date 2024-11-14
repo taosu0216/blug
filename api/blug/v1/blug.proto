@@ -20,7 +20,8 @@ message Result{
   string status = 1;
   string msg = 2;
 }
-service Friend {
+service Blug {
+  // Friend service
   rpc CreateNewFriendLink(CreateNewFriendLinkReq) returns (CreateNewFriendLinkResp) {
     option (google.api.http) = {
       post: "/api/friends/add"
@@ -29,4 +30,3 @@ service Friend {
   }
 }
 
-service Article {}

@@ -19,18 +19,19 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-const OperationFriendCreateNewFriendLink = "/blug.v1.Friend/CreateNewFriendLink"
+const OperationBlugCreateNewFriendLink = "/blug.v1.Blug/CreateNewFriendLink"
 
-type FriendHTTPServer interface {
+type BlugHTTPServer interface {
+	// CreateNewFriendLink Friend service
 	CreateNewFriendLink(context.Context, *CreateNewFriendLinkReq) (*CreateNewFriendLinkResp, error)
 }
 
-func RegisterFriendHTTPServer(s *http.Server, srv FriendHTTPServer) {
+func RegisterBlugHTTPServer(s *http.Server, srv BlugHTTPServer) {
 	r := s.Route("/")
-	r.POST("/api/friends/add", _Friend_CreateNewFriendLink0_HTTP_Handler(srv))
+	r.POST("/api/friends/add", _Blug_CreateNewFriendLink0_HTTP_Handler(srv))
 }
 
-func _Friend_CreateNewFriendLink0_HTTP_Handler(srv FriendHTTPServer) func(ctx http.Context) error {
+func _Blug_CreateNewFriendLink0_HTTP_Handler(srv BlugHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in CreateNewFriendLinkReq
 		if err := ctx.Bind(&in); err != nil {
@@ -39,7 +40,7 @@ func _Friend_CreateNewFriendLink0_HTTP_Handler(srv FriendHTTPServer) func(ctx ht
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationFriendCreateNewFriendLink)
+		http.SetOperation(ctx, OperationBlugCreateNewFriendLink)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.CreateNewFriendLink(ctx, req.(*CreateNewFriendLinkReq))
 		})
@@ -52,23 +53,23 @@ func _Friend_CreateNewFriendLink0_HTTP_Handler(srv FriendHTTPServer) func(ctx ht
 	}
 }
 
-type FriendHTTPClient interface {
+type BlugHTTPClient interface {
 	CreateNewFriendLink(ctx context.Context, req *CreateNewFriendLinkReq, opts ...http.CallOption) (rsp *CreateNewFriendLinkResp, err error)
 }
 
-type FriendHTTPClientImpl struct {
+type BlugHTTPClientImpl struct {
 	cc *http.Client
 }
 
-func NewFriendHTTPClient(client *http.Client) FriendHTTPClient {
-	return &FriendHTTPClientImpl{client}
+func NewBlugHTTPClient(client *http.Client) BlugHTTPClient {
+	return &BlugHTTPClientImpl{client}
 }
 
-func (c *FriendHTTPClientImpl) CreateNewFriendLink(ctx context.Context, in *CreateNewFriendLinkReq, opts ...http.CallOption) (*CreateNewFriendLinkResp, error) {
+func (c *BlugHTTPClientImpl) CreateNewFriendLink(ctx context.Context, in *CreateNewFriendLinkReq, opts ...http.CallOption) (*CreateNewFriendLinkResp, error) {
 	var out CreateNewFriendLinkResp
 	pattern := "/api/friends/add"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationFriendCreateNewFriendLink))
+	opts = append(opts, http.Operation(OperationBlugCreateNewFriendLink))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

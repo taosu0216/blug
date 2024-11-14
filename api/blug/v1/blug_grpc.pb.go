@@ -19,142 +19,93 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Friend_CreateNewFriendLink_FullMethodName = "/blug.v1.Friend/CreateNewFriendLink"
+	Blug_CreateNewFriendLink_FullMethodName = "/blug.v1.Blug/CreateNewFriendLink"
 )
 
-// FriendClient is the client API for Friend service.
+// BlugClient is the client API for Blug service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type FriendClient interface {
+type BlugClient interface {
+	// Friend service
 	CreateNewFriendLink(ctx context.Context, in *CreateNewFriendLinkReq, opts ...grpc.CallOption) (*CreateNewFriendLinkResp, error)
 }
 
-type friendClient struct {
+type blugClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewFriendClient(cc grpc.ClientConnInterface) FriendClient {
-	return &friendClient{cc}
+func NewBlugClient(cc grpc.ClientConnInterface) BlugClient {
+	return &blugClient{cc}
 }
 
-func (c *friendClient) CreateNewFriendLink(ctx context.Context, in *CreateNewFriendLinkReq, opts ...grpc.CallOption) (*CreateNewFriendLinkResp, error) {
+func (c *blugClient) CreateNewFriendLink(ctx context.Context, in *CreateNewFriendLinkReq, opts ...grpc.CallOption) (*CreateNewFriendLinkResp, error) {
 	out := new(CreateNewFriendLinkResp)
-	err := c.cc.Invoke(ctx, Friend_CreateNewFriendLink_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, Blug_CreateNewFriendLink_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// FriendServer is the server API for Friend service.
-// All implementations must embed UnimplementedFriendServer
+// BlugServer is the server API for Blug service.
+// All implementations must embed UnimplementedBlugServer
 // for forward compatibility
-type FriendServer interface {
+type BlugServer interface {
+	// Friend service
 	CreateNewFriendLink(context.Context, *CreateNewFriendLinkReq) (*CreateNewFriendLinkResp, error)
-	mustEmbedUnimplementedFriendServer()
+	mustEmbedUnimplementedBlugServer()
 }
 
-// UnimplementedFriendServer must be embedded to have forward compatible implementations.
-type UnimplementedFriendServer struct {
+// UnimplementedBlugServer must be embedded to have forward compatible implementations.
+type UnimplementedBlugServer struct {
 }
 
-func (UnimplementedFriendServer) CreateNewFriendLink(context.Context, *CreateNewFriendLinkReq) (*CreateNewFriendLinkResp, error) {
+func (UnimplementedBlugServer) CreateNewFriendLink(context.Context, *CreateNewFriendLinkReq) (*CreateNewFriendLinkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateNewFriendLink not implemented")
 }
-func (UnimplementedFriendServer) mustEmbedUnimplementedFriendServer() {}
+func (UnimplementedBlugServer) mustEmbedUnimplementedBlugServer() {}
 
-// UnsafeFriendServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to FriendServer will
+// UnsafeBlugServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to BlugServer will
 // result in compilation errors.
-type UnsafeFriendServer interface {
-	mustEmbedUnimplementedFriendServer()
+type UnsafeBlugServer interface {
+	mustEmbedUnimplementedBlugServer()
 }
 
-func RegisterFriendServer(s grpc.ServiceRegistrar, srv FriendServer) {
-	s.RegisterService(&Friend_ServiceDesc, srv)
+func RegisterBlugServer(s grpc.ServiceRegistrar, srv BlugServer) {
+	s.RegisterService(&Blug_ServiceDesc, srv)
 }
 
-func _Friend_CreateNewFriendLink_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Blug_CreateNewFriendLink_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateNewFriendLinkReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FriendServer).CreateNewFriendLink(ctx, in)
+		return srv.(BlugServer).CreateNewFriendLink(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Friend_CreateNewFriendLink_FullMethodName,
+		FullMethod: Blug_CreateNewFriendLink_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FriendServer).CreateNewFriendLink(ctx, req.(*CreateNewFriendLinkReq))
+		return srv.(BlugServer).CreateNewFriendLink(ctx, req.(*CreateNewFriendLinkReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Friend_ServiceDesc is the grpc.ServiceDesc for Friend service.
+// Blug_ServiceDesc is the grpc.ServiceDesc for Blug service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Friend_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "blug.v1.Friend",
-	HandlerType: (*FriendServer)(nil),
+var Blug_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "blug.v1.Blug",
+	HandlerType: (*BlugServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "CreateNewFriendLink",
-			Handler:    _Friend_CreateNewFriendLink_Handler,
+			Handler:    _Blug_CreateNewFriendLink_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "blug/v1/blug.proto",
-}
-
-const ()
-
-// ArticleClient is the client API for Article service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ArticleClient interface {
-}
-
-type articleClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewArticleClient(cc grpc.ClientConnInterface) ArticleClient {
-	return &articleClient{cc}
-}
-
-// ArticleServer is the server API for Article service.
-// All implementations must embed UnimplementedArticleServer
-// for forward compatibility
-type ArticleServer interface {
-	mustEmbedUnimplementedArticleServer()
-}
-
-// UnimplementedArticleServer must be embedded to have forward compatible implementations.
-type UnimplementedArticleServer struct {
-}
-
-func (UnimplementedArticleServer) mustEmbedUnimplementedArticleServer() {}
-
-// UnsafeArticleServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ArticleServer will
-// result in compilation errors.
-type UnsafeArticleServer interface {
-	mustEmbedUnimplementedArticleServer()
-}
-
-func RegisterArticleServer(s grpc.ServiceRegistrar, srv ArticleServer) {
-	s.RegisterService(&Article_ServiceDesc, srv)
-}
-
-// Article_ServiceDesc is the grpc.ServiceDesc for Article service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var Article_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "blug.v1.Article",
-	HandlerType: (*ArticleServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams:     []grpc.StreamDesc{},
-	Metadata:    "blug/v1/blug.proto",
 }

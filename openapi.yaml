@@ -3,14 +3,15 @@
 
 openapi: 3.0.3
 info:
-    title: Friend API
+    title: Blug API
     version: 0.0.1
 paths:
     /api/friends/add:
         post:
             tags:
-                - Friend
-            operationId: Friend_CreateNewFriendLink
+                - Blug
+            description: Friend service
+            operationId: Blug_CreateNewFriendLink
             requestBody:
                 content:
                     application/json:
@@ -52,4 +53,4 @@ components:
                 msg:
                     type: string
 tags:
-    - name: Friend
+    - name: Blug
