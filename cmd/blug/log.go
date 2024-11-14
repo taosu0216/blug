@@ -72,7 +72,7 @@ func InitLog() *ZapLogger {
 	coreArr = append(coreArr, errorFileCore)
 
 	// zap.AddCaller()为显示文件名和行号，可省略
-	logger = zap.New(zapcore.NewTee(coreArr...), zap.AddCaller(), zap.AddCallerSkip(1))
+	logger = zap.New(zapcore.NewTee(coreArr...), zap.AddCaller(), zap.AddCallerSkip(2))
 	sugar := logger.Sugar()
 	logger.Info("init logger success")
 

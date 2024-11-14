@@ -10,12 +10,12 @@ import (
 	"os"
 )
 
-type FriendService struct {
-	pb.UnimplementedFriendServer
-	uc *biz.FriendUsecase
+type BlugService struct {
+	pb.UnimplementedBlugServer
+	uc *biz.BlugUsecase
 }
 
-func NewFriendService(uc *biz.FriendUsecase) *FriendService {
+func NewFriendService(uc *biz.BlugUsecase) *FriendService {
 	return &FriendService{uc: uc}
 }
 

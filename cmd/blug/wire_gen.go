@@ -28,11 +28,11 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	if err != nil {
 		return nil, nil, err
 	}
-	friendRepo := data.NewFriendRepo(dataData, logger)
-	friendUsecase := biz.NewFriendUsecase(friendRepo, logger)
-	friendService := service.NewFriendService(friendUsecase)
-	grpcServer := server.NewGRPCServer(confServer, friendService, logger)
-	httpServer := server.NewHTTPServer(confServer, friendService, logger)
+	blugRepo := data.NewBlugRepo(dataData, logger)
+	blugUsecase := biz.NewBlugUsecase(blugRepo, logger)
+	blugService := service.NewFriendService(blugUsecase)
+	grpcServer := server.NewGRPCServer(confServer, blugService, logger)
+	httpServer := server.NewHTTPServer(confServer, blugService, logger)
 	app := newApp(logger, grpcServer, httpServer)
 	return app, func() {
 		cleanup()

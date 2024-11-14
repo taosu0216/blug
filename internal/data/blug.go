@@ -7,19 +7,19 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 )
 
-type friendRepo struct {
+type blugRepo struct {
 	data *Data
 	log  *log.Helper
 }
 
-func NewFriendRepo(data *Data, logger log.Logger) biz.FriendRepo {
-	return &friendRepo{
+func NewBlugRepo(data *Data, logger log.Logger) biz.BlugRepo {
+	return &blugRepo{
 		data: data,
 		log:  log.NewHelper(logger),
 	}
 }
 
-func (f *friendRepo) CreateNewFriendLinkInDB(ctx context.Context, req *v1.CreateNewFriendLinkReq) error {
+func (f *blugRepo) CreateNewFriendLinkInDB(ctx context.Context, req *v1.CreateNewFriendLinkReq) error {
 	err := f.data.DB.Friend.Create().
 		SetTitle(req.Title).
 		SetLink(req.Link).

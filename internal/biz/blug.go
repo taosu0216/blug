@@ -6,20 +6,20 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 )
 
-type FriendRepo interface {
+type BlugRepo interface {
 	CreateNewFriendLinkInDB(ctx context.Context, req *v1.CreateNewFriendLinkReq) error
 }
 
-type FriendUsecase struct {
-	repo FriendRepo
+type BlugUsecase struct {
+	repo BlugRepo
 	log  *log.Helper
 }
 
-func NewFriendUsecase(repo FriendRepo, logger log.Logger) *FriendUsecase {
-	return &FriendUsecase{repo: repo, log: log.NewHelper(logger)}
+func NewBlugUsecase(repo BlugRepo, logger log.Logger) *BlugUsecase {
+	return &BlugUsecase{repo: repo, log: log.NewHelper(logger)}
 }
 
-func (uc *FriendUsecase) CreateNewFriendLinkReq(ctx context.Context, req *v1.CreateNewFriendLinkReq) (*v1.CreateNewFriendLinkResp, error) {
+func (uc *BlugUsecase) CreateNewFriendLinkReq(ctx context.Context, req *v1.CreateNewFriendLinkReq) (*v1.CreateNewFriendLinkResp, error) {
 	uc.log.Infof("CreateNewFriendLinkReq: %v", req)
 	return &v1.CreateNewFriendLinkResp{
 			Message: "success",
