@@ -4,10 +4,10 @@ import (
 	v1 "blug/api/blug/v1"
 	"blug/internal/conf"
 	"blug/internal/service"
-	"github.com/go-kratos/kratos/v2/middleware/logging"
-
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/go-kratos/kratos/v2/middleware/logging"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
+	"github.com/go-kratos/kratos/v2/middleware/tracing"
 	"github.com/go-kratos/kratos/v2/transport/http"
 )
 
@@ -17,6 +17,7 @@ func NewHTTPServer(c *conf.Server, fs *service.BlugService, logger log.Logger) *
 		http.Middleware(
 			recovery.Recovery(),
 			logging.Server(logger),
+			tracing.Server(), // 新增 tracing
 		),
 	}
 	if c.Http.Network != "" {

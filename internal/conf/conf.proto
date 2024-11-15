@@ -8,6 +8,8 @@ import "google/protobuf/duration.proto";
 message Bootstrap {
   Server server = 1;
   Data data = 2;
+  Aiservice aiservice = 3;
+  Trace trace = 4;
 }
 
 message Server {
@@ -39,4 +41,14 @@ message Data {
   }
   Database database = 1;
   Redis redis = 2;
+}
+
+message Aiservice {
+  string baseurl = 1;
+  string apikey = 2;
+  string model = 3;
+}
+
+message Trace {
+  string endpoint = 1;
 }

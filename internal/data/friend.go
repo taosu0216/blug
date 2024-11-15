@@ -12,9 +12,16 @@ func (f *blugRepo) CreateNewFriendLinkInDB(ctx context.Context, req *v1.CreateNe
 		SetDesc(req.Desc).
 		SetAvatar(req.Avatar).
 		Exec(ctx)
+	//start := time.Now()
+	//defer func() {
+	//	log.Printf("CreateNewFriendLinkReq data took %v", time.Since(start))
+	//}()
+	//tracer := otel.Tracer("data-tracer")
+	//_, span := tracer.Start(ctx, "dataMethod")
+	//defer span.End()
 
 	if err != nil {
-		f.log.Errorf("CreateNewFriendLinkInDB error: %v", err)
+		f.log.Error(err)
 		return err
 	}
 	return nil
